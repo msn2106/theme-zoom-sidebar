@@ -3,7 +3,7 @@
   "displayName": "Theme Zoom Sidebar",
   "description": "Activity bar controls for switching themes and adjusting editor zoom in VS Code and Cursor.",
   "version": "0.0.1",
-  "publisher": "local",
+  "publisher": "msn2106",
   "engines": {
     "vscode": "^1.90.0"
   },
@@ -89,7 +89,15 @@
   },
   "devDependencies": {
     "@types/node": "^26.1.1",
-    "@types/vscode": "^1.125.0",
+    "@types/vscode": "^1.90.0",
     "typescript": "^7.0.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/msn2106/theme-zoom-sidebar.git"
+  },
+  "homepage": "https://msn2106.github.io/theme-zoom-sidebar/",
+  "bugs": {
+    "url": "https://github.com/msn2106/theme-zoom-sidebar/issues"
   }
 }
