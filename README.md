@@ -91,4 +91,4 @@ Folder: /docs
 
 ## License
 
-No license has been selected yet.
+MIT License. See `LICENSE` for details.

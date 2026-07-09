@@ -99,5 +99,6 @@
   "homepage": "https://msn2106.github.io/theme-zoom-sidebar/",
   "bugs": {
     "url": "https://github.com/msn2106/theme-zoom-sidebar/issues"
-  }
+  },
+  "license": "MIT"
 }
