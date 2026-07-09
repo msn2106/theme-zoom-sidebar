@@ -1,0 +1,95 @@
+{
+  "name": "theme-zoom-sidebar",
+  "displayName": "Theme Zoom Sidebar",
+  "description": "Activity bar controls for switching themes and adjusting editor zoom in VS Code and Cursor.",
+  "version": "0.0.1",
+  "publisher": "local",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onView:themeZoomSidebar.controls",
+    "onCommand:themeZoomSidebar.openThemePicker",
+    "onCommand:themeZoomSidebar.zoomIn",
+    "onCommand:themeZoomSidebar.zoomOut",
+    "onCommand:themeZoomSidebar.zoomReset"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "themeZoomSidebar.openThemePicker",
+        "title": "Theme Zoom Sidebar: Open Theme Picker",
+        "icon": "$(color-mode)"
+      },
+      {
+        "command": "themeZoomSidebar.zoomIn",
+        "title": "Theme Zoom Sidebar: Zoom In",
+        "icon": "$(zoom-in)"
+      },
+      {
+        "command": "themeZoomSidebar.zoomOut",
+        "title": "Theme Zoom Sidebar: Zoom Out",
+        "icon": "$(zoom-out)"
+      },
+      {
+        "command": "themeZoomSidebar.zoomReset",
+        "title": "Theme Zoom Sidebar: Reset Zoom",
+        "icon": "$(screen-normal)"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "themeZoomSidebar.openThemePicker",
+        "key": "ctrl+alt+t",
+        "mac": "cmd+alt+t"
+      },
+      {
+        "command": "themeZoomSidebar.zoomIn",
+        "key": "ctrl+alt+=",
+        "mac": "cmd+alt+="
+      },
+      {
+        "command": "themeZoomSidebar.zoomOut",
+        "key": "ctrl+alt+-",
+        "mac": "cmd+alt+-"
+      },
+      {
+        "command": "themeZoomSidebar.zoomReset",
+        "key": "ctrl+alt+0",
+        "mac": "cmd+alt+0"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "themeZoomSidebar",
+          "title": "Theme Zoom",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "themeZoomSidebar": [
+        {
+          "id": "themeZoomSidebar.controls",
+          "name": "Controls",
+          "type": "webview"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "vscode:prepublish": "npm run compile"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "@types/vscode": "^1.125.0",
+    "typescript": "^7.0.2"
+  }
+}

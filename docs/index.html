@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Theme Zoom Sidebar is a VS Code and Cursor extension for quick theme switching and zoom controls from the activity bar.">
+  <title>Theme Zoom Sidebar</title>
+  <style>
+    :root {
+      --bg: #101418;
+      --panel: #171d22;
+      --text: #f4f7f8;
+      --muted: #a9b6bd;
+      --line: #2b353b;
+      --accent: #1f7a8c;
+      --accent-strong: #2aa6bd;
+      --gold: #f6ae2d;
+      --green: #5cc78a;
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      background:
+        linear-gradient(135deg, rgba(31, 122, 140, 0.18), transparent 34%),
+        linear-gradient(315deg, rgba(246, 174, 45, 0.12), transparent 32%),
+        var(--bg);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .page {
+      min-height: 100vh;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 22px 0;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+      font-weight: 700;
+    }
+
+    .brand img {
+      width: 34px;
+      height: 34px;
+      flex: 0 0 auto;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 430px);
+      gap: 48px;
+      align-items: center;
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 58px 0 44px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 18px;
+      color: var(--gold);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: var(--green);
+    }
+
+    h1 {
+      max-width: 780px;
+      margin: 0;
+      font-size: clamp(44px, 7vw, 82px);
+      line-height: 0.95;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      max-width: 650px;
+      margin: 24px 0 0;
+      color: var(--muted);
+      font-size: 19px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 32px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 18px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      color: var(--text);
+      background: var(--accent);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .button.secondary {
+      background: transparent;
+    }
+
+    .preview {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .titlebar {
+      display: flex;
+      gap: 7px;
+      padding: 14px;
+      border-bottom: 1px solid var(--line);
+      background: #12181d;
+    }
+
+    .dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 999px;
+      background: #45535b;
+    }
+
+    .dot:nth-child(1) {
+      background: #ff6b5f;
+    }
+
+    .dot:nth-child(2) {
+      background: #f6c85f;
+    }
+
+    .dot:nth-child(3) {
+      background: #5cc78a;
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: 56px minmax(0, 1fr);
+      min-height: 430px;
+    }
+
+    .activity {
+      display: grid;
+      align-content: start;
+      gap: 14px;
+      padding: 16px 11px;
+      border-right: 1px solid var(--line);
+      background: #11171c;
+    }
+
+    .activity-icon {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 6px;
+      color: var(--muted);
+      border: 1px solid transparent;
+    }
+
+    .activity-icon.active {
+      color: var(--text);
+      border-color: var(--accent-strong);
+      background: rgba(31, 122, 140, 0.22);
+    }
+
+    .sidebar {
+      padding: 18px;
+    }
+
+    .panel-title {
+      margin: 0 0 18px;
+      font-size: 13px;
+      color: var(--muted);
+      text-transform: uppercase;
+      font-weight: 800;
+    }
+
+    .control {
+      margin-bottom: 18px;
+    }
+
+    .control label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .select,
+    .fake-button {
+      display: flex;
+      align-items: center;
+      min-height: 36px;
+      width: 100%;
+      padding: 0 11px;
+      border: 1px solid var(--line);
+      border-radius: 5px;
+      background: #10161b;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .fake-button.primary {
+      justify-content: center;
+      background: var(--accent);
+      border-color: var(--accent-strong);
+      font-weight: 700;
+    }
+
+    .zoom-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .zoom-row span {
+      display: grid;
+      place-items: center;
+      min-height: 36px;
+      border-radius: 5px;
+      background: #10161b;
+      border: 1px solid var(--line);
+      font-weight: 800;
+    }
+
+    .features {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 38px 0 74px;
+    }
+
+    .section-title {
+      margin: 0 0 22px;
+      font-size: 28px;
+      letter-spacing: 0;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .feature {
+      min-height: 168px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(23, 29, 34, 0.82);
+    }
+
+    .feature h3 {
+      margin: 0 0 10px;
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+
+    .feature p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .footer {
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 22px 0;
+      font-size: 14px;
+    }
+
+    @media (max-width: 820px) {
+      .nav {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        padding-top: 30px;
+      }
+
+      .preview {
+        max-width: 480px;
+      }
+
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .nav,
+      .hero,
+      .features,
+      .footer-inner {
+        width: min(100% - 28px, 1120px);
+      }
+
+      .nav-links {
+        flex-wrap: wrap;
+      }
+
+      h1 {
+        font-size: 42px;
+      }
+
+      .lead {
+        font-size: 17px;
+      }
+
+      .app {
+        grid-template-columns: 46px minmax(0, 1fr);
+      }
+
+      .activity {
+        padding-inline: 6px;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <nav class="nav" aria-label="Main navigation">
+      <div class="brand">
+        <img src="icon.svg" alt="" width="34" height="34">
+        <span>Theme Zoom Sidebar</span>
+      </div>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="https://github.com/msn2106/theme-zoom-sidebar">GitHub</a>
+        <a href="https://marketplace.visualstudio.com/">Marketplace</a>
+      </div>
+    </nav>
+
+    <section class="hero">
+      <div>
+        <p class="eyebrow">VS Code and Cursor extension</p>
+        <h1>Theme and zoom controls where your hand already is.</h1>
+        <p class="lead">
+          Theme Zoom Sidebar adds a compact activity-bar panel for switching editor themes,
+          saving favorite themes, and adjusting zoom without digging through menus.
+        </p>
+        <div class="actions">
+          <a class="button" href="https://github.com/msn2106/theme-zoom-sidebar">View on GitHub</a>
+          <a class="button secondary" href="#features">See Features</a>
+        </div>
+      </div>
+
+      <aside class="preview" aria-label="Extension preview">
+        <div class="titlebar" aria-hidden="true">
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+        <div class="app">
+          <div class="activity" aria-hidden="true">
+            <div class="activity-icon">E</div>
+            <div class="activity-icon">S</div>
+            <div class="activity-icon active">T</div>
+            <div class="activity-icon">G</div>
+          </div>
+          <div class="sidebar">
+            <p class="panel-title">Theme Zoom</p>
+            <div class="control">
+              <label>Current Theme</label>
+              <div class="select">Default Dark Modern</div>
+            </div>
+            <div class="control">
+              <div class="fake-button primary">Open Theme Picker</div>
+            </div>
+            <div class="control">
+              <label>Favorites</label>
+              <div class="select">GitHub Dark</div>
+            </div>
+            <div class="control">
+              <label>Zoom Level</label>
+              <div class="zoom-row">
+                <span>-</span>
+                <span>0</span>
+                <span>+</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="features" id="features">
+      <h2 class="section-title">Small controls, fast workflow.</h2>
+      <div class="feature-grid">
+        <article class="feature">
+          <h3>Switch themes quickly</h3>
+          <p>Open the built-in theme picker or apply an installed theme directly from the sidebar.</p>
+        </article>
+        <article class="feature">
+          <h3>Keep favorites close</h3>
+          <p>Save the themes you actually use and switch between them in one click.</p>
+        </article>
+        <article class="feature">
+          <h3>Control zoom</h3>
+          <p>Zoom in, zoom out, or reset the editor zoom from the same activity-bar panel.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span>Theme Zoom Sidebar by Mayank Singh</span>
+      <span>Built for VS Code and Cursor.</span>
+    </div>
+  </footer>
+</body>
+</html>
